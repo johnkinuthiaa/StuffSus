@@ -13,16 +13,24 @@ type CartItems={
     name: string,
 }
 export default function Cart(){
-    const itemsTotal =3
     const[cartItems,setCartItems] =useState<CartItems[]>([])
+    const [itemsTotal,setItemsTotal] =useState(0)
     useEffect(() => {
         setCartItems(Data.slice(0,4))
+        setItemsTotal(cartItems.length)
     }, []);
+    const[showCart,setShowCart] =useState(true)
+
     return(
-        <div className={"absolute rounded-2xl bg-white text-black right-30 top-25 w-[450px] flex flex-col p-4 "}>
+        <div className={`${showCart?"visible ":"invisible"} absolute rounded-2xl bg-white text-black right-30 top-25 w-[450px] flex flex-col p-4 `}>
             <div className={"flex justify-between p-2 font-bold border-b-gray-600"}>
                 <h1>My Cart ({itemsTotal})</h1>
-                <button className={"outline-0 bg-transparent text-gray-600 cursor-pointer"}><CloseIcon/></button>
+                <button
+                    className={"outline-0 bg-transparent text-gray-600 cursor-pointer"}
+                    onClick={()=>{
+                        setShowCart(false)
+                    }}
+                ><CloseIcon/></button>
             </div>
             <div className={"shadow rounded-2xl p-2"}>
                 <p>Items</p>

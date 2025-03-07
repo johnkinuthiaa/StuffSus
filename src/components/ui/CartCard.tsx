@@ -20,7 +20,7 @@ const CartCard =({image,category,type,color,initial,discount,name}:CartItems)=>{
         <div className={"flex gap-4 border-b-gray-200 border-b mb-4 justify-between"}>
             <img src={image} alt={name} className={"rounded-2xl h-28 w-28"}/>
             <div className={"flex flex-col gap-2"}>
-                <p className={"p-2 border border-gray-300 rounded-full w-fit"}>{category}</p>
+                <p className={"p-1 border border-gray-300 rounded-full w-fit"}>{category}</p>
                 <h2 className={"font-bold"}>{name.length>10?name.substring(0,15)+"...":name}</h2>
                 <p className={"text-gray-400"}>Type <span>{type}</span></p>
                 <p className={"text-gray-400"}>Type <span>{color}</span></p>
