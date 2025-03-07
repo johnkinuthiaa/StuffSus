@@ -1,5 +1,6 @@
 "use client"
 import {
+    Chair,
     House, KeyboardArrowDown, KeyboardArrowUp,
     MusicNote,
     Phone,
@@ -28,7 +29,7 @@ export default function All(){
     const [disableNextButton,setDisableNextButton]=useState<boolean>(false)
     const buttonsAvailable=Math.ceil(pageLimit/10)
     const[searchTerm,setSearchTerm] =useState<string>("")
-    const[filterItem,setFilterItem] =useState<string>("")
+    const[loading,setLoading] =useState<boolean>(false)
 
     useEffect(() => {
         setItems(Data)
@@ -38,8 +39,6 @@ export default function All(){
         if(ITEMS_PER_PAGE<=pageLimit){
             setItemIndex(ITEMS_PER_PAGE+1)
             setItemsPerPage(ITEMS_PER_PAGE+10)
-            console.log("item per page:"+ITEMS_PER_PAGE)
-            console.log("items index"+itemIndex)
         }else{
             setDisableNextButton(true)
         }
@@ -50,13 +49,10 @@ export default function All(){
         })
         setItems(itemFound)
     }
-    const filterSearch =()=>{
-        const itemFound =items.filter((item)=>{
-            return item.category.toLowerCase()===filterItem.toLowerCase()
+    const filterSearch =(name:string,searchFrom:Items[])=>{
+        const itemFound =searchFrom.filter((item)=>{
+            return item.category.toLowerCase()===name.toLowerCase()
         })
-        console.log(filterItem)
-        console.log(itemFound)
-        setFilterItem("")
         setItems(itemFound)
     }
 
@@ -99,45 +95,52 @@ export default function All(){
                         <div className={"flex gap-3"}>
                             <House/>
                             <button onClick={()=> {
-                                setFilterItem("home")
-                                setTimeout(()=>{
-                                    filterSearch()
-                                },5000)
+                                filterSearch("home",Data)
 
+                            }}>For Home</button>
+                        </div>
+                        <div className={"flex gap-3"}>
+                            <Chair/>
+                            <button onClick={()=> {
+                                filterSearch("furniture",Data)
+
+                            }}>For Home</button>
+                        </div>
+                        <div className={"flex gap-3"}>
+                            <Chair/>
+                            <button onClick={()=> {
+                                filterSearch("Clothing",Data)
 
                             }}>For Home</button>
                         </div>
                         <button className={"flex gap-2"}>
                             <MusicNote/>
                             <p onClick={()=> {
-                                setFilterItem("music")
-                                filterSearch()
+                                filterSearch("music",Data)
                             }}>For Music</p>
                         </button>
                         <button className={"flex gap-2"}>
                             <Phone/>
                             <p onClick={()=> {
-                                setFilterItem("electronics")
-                                filterSearch()
+                                filterSearch("electronics",Data)
                             }}>For Phone</p>
                         </button>
                         <button className={"flex gap-2"}>
                             <Storage/>
                             <p onClick={()=> {
-                                setFilterItem("storage")
-                                filterSearch()
+                                filterSearch("storage",Data)
                             }}>For Storage</p>
                         </button>
                         <button className={"flex gap-2"}>
                             <Tv/>
                             <p onClick={()=> {
-                                setFilterItem("televisions")
-                                filterSearch()
+                                filterSearch("televisions",Data)
                             }}>For Electronic</p>
                         </button>
                     </div>
 
                 </div>
+                {loading&&<div className={"p-4 border-b-red-500 rounded-full animate-spin absolute z-10"}></div>}
                 <div className={"flex w-full min-w-[80%] flex-10/12"}>
                     <div className={"gap-2"}>
                         {items.length>0?(
