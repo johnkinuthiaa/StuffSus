@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {useEffect, useState} from "react";
 import {Data} from "../../../data"
 import CartCard from "@/components/ui/CartCard";
+import Link from "next/link";
 type CartItems={
     image: string,
     category:string,
@@ -12,17 +13,17 @@ type CartItems={
     discount: number,
     name: string,
 }
-export default function Cart(){
+export default function MiniCart(){
     const[cartItems,setCartItems] =useState<CartItems[]>([])
     const [itemsTotal,setItemsTotal] =useState(0)
     useEffect(() => {
         setCartItems(Data.slice(0,4))
         setItemsTotal(cartItems.length)
-    }, []);
+    }, [cartItems.length]);
     const[showCart,setShowCart] =useState(true)
 
     return(
-        <div className={`${showCart?"visible ":"invisible"} absolute rounded-2xl bg-white text-black right-30 top-25 w-[450px] flex flex-col p-4 `}>
+        <div className={`${showCart?"visible ":"invisible"} absolute rounded-2xl bg-white text-black right-30 top-25 w-[450px] flex flex-col p-4 shadow `}>
             <div className={"flex justify-between p-2 font-bold border-b-gray-600"}>
                 <h1>My Cart ({itemsTotal})</h1>
                 <button
@@ -47,7 +48,7 @@ export default function Cart(){
                                       key={index}
                             />
                         ))}
-                        <button className={"w-full p-2 rounded-full font-bold border bg-[rgb(247, 247, 247)] border-gray-200 cursor-pointer hover:bg-[whitesmoke]"}>view all</button>
+                        <button className={"w-full p-2 rounded-full font-bold border bg-[rgb(247, 247, 247)] border-gray-200 cursor-pointer hover:bg-[whitesmoke]"} onClick={()=>setShowCart(false)}><Link href={"/cart"}>view cart</Link></button>
                     </div>
 
                 ):(
